@@ -6,6 +6,9 @@ If the user clicks the notification bar he is redirected to Google's "<a href="h
 
 This is based on the <a href="http://www.browser-update.org">www.browser-update.org</a> script. See LICENSE file for more information.
 
+### Installation via Bower
+You can install it via Bower with: `bower install browser-update`
+
 ### The following browsers will be notified:
 1. IE <= 8
 2. Firefox <= 16
