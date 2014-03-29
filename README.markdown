@@ -9,7 +9,7 @@ This is based on the <a href="http://www.browser-update.org">www.browser-update.
 ### Installation via Bower
 You can install it via Bower with: `bower install browser-update`
 
-### The following browsers will be notified:
+### The following browsers will be notified by default:
 1. IE <= 8
 2. Firefox <= 16
 3. Opera <= 12
