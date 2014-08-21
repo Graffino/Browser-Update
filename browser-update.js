@@ -199,13 +199,14 @@ this.op.div = div;
 div.id="buorg";
 div.className="buorg";
 div.innerHTML= '<div>' + this.op.text + '<div id="buorgclose">&times;</div></div>';
-
+/* Generated using CSS Image Encoder 1.2.2 by WriteIt! Studios */
+/* http://www.writeitstudios.com */
 var sheet = document.createElement("style");
 //sheet.setAttribute("type", "text/css");
 var style = ".buorg {position:absolute;position:fixed;z-index:111111;\
 width:100%; top:0px; left:0px; \
 border-bottom:1px solid #A29330; \
-background:#FDF2AB no-repeat 10px center url(warning.png);\
+background:#FDF2AB no-repeat 10px center url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAd9JREFUOBGNk0FrE1EUhb83GUfbNAmFSBR1U0tLi1hCkRoJhSJiaxB3wUUhxYW7lm6Kv6Brg101oBDoQtKVYO1fEKQ/oCBdFARBoQsbkEod73mYYMJI++DOnHfuuefex7xx/GetwpUI3ih9As/q8DVJGiaR4i7C63F4KLxv2F4V4f4V9BPaW/diHh6UJiaCG/l8ICwuSZtoYN1fjkI4uL7OWKOBsLhzGVine5ctJufmXDgzg0JYnHJJJj3cC/j0Hn4fbm/HxWLRh7A45XrEtuk5gnW4X4DbY+Wyi8plcrmcD2Fxyknzr0mPgZ3z1SREgysruCAgk8n4EBannDSJBub8+CqM3iyViGZncc6RzWZ9CItTThppOyZ+AiOcXZr6rb/dgzD0Bt0JzECcppBGWtXIxD9s83QEmo+mp6Ph3V1IpYjjmHa77Rul02lvyOkpRwsLfNjbOzmAWh3eOitOXYOjO5AZ39riUqXii2VQrVa9QavV8gY6ys+dHfYXF/U5fnyB4cBGWBqwm3t9aoqB+fmuUOJCoeBDuBPSeK3VqNatwbcnkB/Z2GCoVut21wQKrU5x533cbHKwvMw7+O427YLcNc0FLz3/45dJP0IcfoZN+12fD/VdqrOsjq3xITT+AJfefQgtzf4fAAAAAElFTkSuQmCC);\
 text-align:left; cursor:pointer; \
 font-family: Arial,Helvetica,sans-serif; color:#000; font-size: 12px;}\
 .buorg div { padding:5px 36px 5px 40px; } \
