@@ -11,13 +11,13 @@ var n = window.navigator,b;
 this.op=op||{};
 
 //Options
-this.op.l = op.l||n["language"]||n["userLanguage"]||document.documentElement.getAttribute("lang")||"en";
+this.op.l = op.l||n['language']||n['userLanguage']||document.documentElement.getAttribute("lang")||"en";
 var ll=this.op.l.substr(0,2);
-this.op.vsakt = {i:11,f:27,o:18,s:7,n:20,c:32};
+this.op.vsakt = {i:11,f:28,o:12.1,s:7,n:20,c:32};
 
 //Default Options
-this.op.vsdefault = {i:8,f:16,o:12,s:5,n:12,c:23};
-this.op.vsmin={i:7,f:8,o:12,s:5,n:10,c:23};
+this.op.vsdefault = {i:9,f:23,o:12,s:5.2,n:12,c:28};
+this.op.vsmin={i:7,f:5,o:12,s:5,n:10,c:28};
 var myvs=op.vs||{};
 this.op.vs =op.vs||this.op.vsdefault;
 for (b in this.op.vsakt) {

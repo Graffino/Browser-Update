@@ -12,7 +12,7 @@ module.exports = function(grunt) {
 		// Lint Javascript
 		jshint: {
 			all: {
-				src: ['assets/js/*.js', '!assets/js/main.min.js' ],
+				src: ['browser-update.js'],
 			},
 			gruntfile: {
 				src: ['Gruntfile.js'],
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
 					banner: '<%= banner %>'
 				},
 				files: {
-					'assets/js/main.min.js': ['assets/js/main.js']
+					'browser-update.min.js': ['browser-update.js']
 				}
 			},
 		},
@@ -53,7 +53,7 @@ module.exports = function(grunt) {
 			// Live lint Grunt file
 			gruntfile: {
 				files: 'Gruntfile.js',
-				tasks: ['jshint:gruntfile', 'bowercopy', 'jshint:all', 'sprite', 'less', 'cssmin', 'concat', 'uglify'],
+				tasks: ['jshint:gruntfile', 'uglify'],
 				
 			},
 		},
@@ -67,6 +67,7 @@ module.exports = function(grunt) {
 	// Uglify JS
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 
+	//'jshint', 
 	// Runt Grunt Tasks //
-    grunt.registerTask('default', ['jshint', 'uglify', 'watch']); 
+    grunt.registerTask('default', ['uglify', 'watch']); 
 };
