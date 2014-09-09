@@ -10,12 +10,12 @@ This is based on the <a href="http://www.browser-update.org">www.browser-update.
 You can install it via Bower with: `bower install browser-update`
 
 ### The following browsers will be notified by default:
-1. IE <= 8
-2. Firefox <= 16
+1. IE <= 9
+2. Firefox <= 23
 3. Opera <= 12
-4. Safari <= 5
+4. Safari <= 6.2
 5. Netscape Navigator <= 12
-6. Chrome <= 23
+6. Chrome <= 28
 
 
 ### The following options can be passed to the script:
