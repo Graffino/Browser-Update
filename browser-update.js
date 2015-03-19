@@ -1,7 +1,7 @@
 /* 
 Browser Update
 Author: Graffino (http://www.graffino.com)
-Version: 1.0.5
+Version: 1.0.6
 This is a modified version of the browser-update.org script
 Copyright (c) 2007-2015, MIT Style License <browser-update.org/LICENSE.txt>
 */
@@ -37,9 +37,9 @@ this.op.onshow = op.onshow||function(o){};
 this.op.onclick = op.onclick||function(o){};
 this.op.onclose = op.onclose||function(o){};
 
-this.op.url= op.url||"//whatbrowser.org");
+this.op.url= op.url||"//whatbrowser.org";
 if (op.l)
-	this.op.url= op.url||"//whatbrowser.org");
+	this.op.url= op.url||"//whatbrowser.org";
 this.op.pageurl = op.pageurl || window.location.hostname || "unknown";
 this.op.newwindow=(op.newwindow!==false);
 
@@ -112,7 +112,7 @@ if (this.op.reminder>0) {
 
 var languages = "xx,jp,sl,id,uk,rm,da,ca,sv,hu,fa,gl";
 if (languages.indexOf(ll)>0)
-    this.op.url="//whatbrowser.org");
+    this.op.url="//whatbrowser.org";
 var tar="";
 if (this.op.newwindow)
     tar=' target="_blank"';
