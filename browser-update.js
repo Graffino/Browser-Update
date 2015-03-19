@@ -1,23 +1,23 @@
 /* 
 Browser Update
 Author: Graffino (http://www.graffino.com)
-Version: 1.0
+Version: 1.0.5
 This is a modified version of the browser-update.org script
-Copyright (c) 2007-2014, MIT Style License <browser-update.org/LICENSE.txt>
+Copyright (c) 2007-2015, MIT Style License <browser-update.org/LICENSE.txt>
 */
 var $buo = function(op,test) {
-var jsv=13;
+var jsv=17;
 var n = window.navigator,b;
 this.op=op||{};
 
-//Options
-this.op.l = op.l||n['language']||n['userLanguage']||document.documentElement.getAttribute("lang")||"en";
+this.op.l = op.l||(n.languages ? n.languages[0] : null) || n.language || n.browserLanguage || n.userLanguage||document.documentElement.getAttribute("lang")||"en";
 var ll=this.op.l.substr(0,2);
-this.op.vsakt = {i:11,f:28,o:12.1,s:7,n:20,c:32};
 
 //Default Options
-this.op.vsdefault = {i:10,f:23,o:12,s:6.2,n:12,c:28};
-this.op.vsmin={i:7,f:5,o:12,s:5,n:10,c:28};
+this.op.vsakt = {i:11,f:36,o:28,s:8,n:20,c:41};
+this.op.vsdefault = {i:9,f:34,o:12.1,s:6.2,n:12,c:39};
+this.op.vsmin={i:8,f:5,o:12,s:5.1,n:12};
+
 var myvs=op.vs||{};
 this.op.vs =op.vs||this.op.vsdefault;
 for (b in this.op.vsakt) {
@@ -30,25 +30,27 @@ for (b in this.op.vsakt) {
 }
 if (op.reminder<0.1 || op.reminder===0)
     this.op.reminder=0;
-else if (!op.reminder)
-    this.op.reminder=24;
 else
     this.op.reminder=op.reminder||24;
-
+this.op.reminderClosed=op.reminderClosed||(24*7);
 this.op.onshow = op.onshow||function(o){};
 this.op.onclick = op.onclick||function(o){};
-this.op.url= op.url||"http://whatbrowser.org";
+this.op.onclose = op.onclose||function(o){};
+
+this.op.url= op.url||"//whatbrowser.org");
+if (op.l)
+	this.op.url= op.url||"//whatbrowser.org");
 this.op.pageurl = op.pageurl || window.location.hostname || "unknown";
-this.op.newwindow=op.newwindow||true;
+this.op.newwindow=(op.newwindow!==false);
 
 this.op.test=test||op.test||false;
 if (window.location.hash=="#test-bu")
     this.op.test=true;
 
-function getBrowser() {
-    var n,v,t,ua = navigator.userAgent;
+function getBrowser(ua_str) {
+    var n,v,t,ua=ua_str||navigator.userAgent;
     var names={i:'Internet Explorer',f:'Firefox',o:'Opera',s:'Apple Safari',n:'Netscape Navigator', c:"Chrome", x:"Other"};
-    if (/bot|googlebot|facebook|slurp|wii|silk|blackberry|mediapartners|adsbot|silk|android|phone|bingbot|google web preview|like firefox|chromeframe|seamonkey|opera mini|min|meego|netfront|moblin|maemo|arora|camino|flot|k-meleon|fennec|kazehakase|galeon|android|mobile|iphone|ipod|ipad|epiphany|rekonq|symbian|webos/i.test(ua)) n="x";
+    if (/bot|googlebot|facebook|slurp|wii|silk|blackberry|maxthon|maxton|mediapartners|dolfin|dolphin|adsbot|silk|android|phone|bingbot|google web preview|like firefox|chromeframe|seamonkey|opera mini|min|meego|netfront|moblin|maemo|arora|camino|flot|k-meleon|fennec|kazehakase|galeon|android|mobile|iphone|ipod|ipad|epiphany|konqueror|rekonq|symbian|webos|coolnovo|blackberry|bb10|RIM|PlayBook|PaleMoon|QupZilla|YaBrowser/i.test(ua)) n="x";
     else if (/Trident.*rv:(\d+\.\d+)/i.test(ua)) n="i";
     else if (/Trident.(\d+\.\d+)/i.test(ua)) n="io";
     else if (/MSIE.(\d+\.\d+)/i.test(ua)) n="i";
@@ -62,19 +64,21 @@ function getBrowser() {
     else if (/Netscape.(\d+)/i.test(ua)) n="n";
     else return {n:"x",v:0,t:names[n]};
     
-    //do not notify ver old systems since their is no up-to-date browser available
-    if (/windows.nt.5.0|windows.nt.4.0|windows.98|os x 10.4|os x 10.5|os x 10.3|os x 10.2/.test(ua)) n="x";
+    var v= parseFloat(RegExp.$1);
+    var donotnotify=false;
+    //do not notify ver old systems since there is no up-to-date browser available
+    if (/windows.nt.5.0|windows.nt.4.0|windows.98|os x 10.4|os x 10.5|os x 10.3|os x 10.2/.test(ua)) donotnotify="oldOS";
     
     //do not notify firefox ESR
-    if (n=="f" && v==24)
-        n="x";
+    if (n=="f" && (Math.round(v)==24 || Math.round(v)==31))
+        donotnotify="ESR";
     //do not notify opera 12 on linux since it is the latest version
     if (/linux|x11|unix|bsd/.test(ua) && n=="o" && v>12) 
-        n="x";
+        donotnotify="Opera12Linux";
     
-    if (n=="x") return {n:"x",v:0,t:names[n]};
+    if (n=="x") return {n:"x",v:v||0,t:names[n],donotnotify:donotnotify};
     
-    v=new Number(RegExp.$1);
+
     if (n=="so") {
         v=((v<100) && 1.0) || ((v<130) && 1.2) || ((v<320) && 1.3) || ((v<520) && 2.0) || ((v<524) && 3.0) || ((v<526) && 3.2) ||4.0;
         n="s";
@@ -91,26 +95,24 @@ function getBrowser() {
         else if (v>3) v=7;
         else v=9;
     }	
-    return {n:n,v:v,t:names[n]+" "+v};
+    return {n:n,v:v,t:names[n]+" "+v,donotnotify:donotnotify};
 }
 
 this.op.browser=getBrowser();
-if (!this.op.test && (!this.op.browser || !this.op.browser.n || this.op.browser.n=="x" || document.cookie.indexOf("browserupdateorg=pause")>-1 || this.op.browser.v>this.op.vs[this.op.browser.n]))
+if (!this.op.test && (!this.op.browser || !this.op.browser.n || this.op.browser.n=="x" || this.op.browser.donotnotify!==false || (document.cookie.indexOf("browserupdateorg=pause")>-1 && this.op.reminder>0) || this.op.browser.v>this.op.vs[this.op.browser.n]))
     return;
 
-
-if (!this.op.test  && Math.round(Math.random()*100)<1) {
-    var i = new Image();
-    i.src="//browser-update.org/viewcount.php?n="+this.op.browser.n+"&v="+this.op.browser.v + "&p="+ escape(this.op.pageurl) + "&jsv="+jsv+"&vs="+myvs.i+","+myvs.f+","+myvs.o+","+myvs.s;
+function setCookie(hours) {
+    var d = new Date(new Date().getTime() +1000*3600*hours);
+    document.cookie = 'browserupdateorg=pause; expires='+d.toGMTString()+'; path=/';
 }
 if (this.op.reminder>0) {
-    var d = new Date(new Date().getTime() +1000*3600*this.op.reminder);
-    document.cookie = 'browserupdateorg=pause; expires='+d.toGMTString()+'; path=/';
+    setCookie(this.op.reminder);
 }
 
 var languages = "xx,jp,sl,id,uk,rm,da,ca,sv,hu,fa,gl";
 if (languages.indexOf(ll)>0)
-    this.op.url="http://browser-update.org/update.html#"+jsv+"@"+(location.hostname||"x");
+    this.op.url="//whatbrowser.org");
 var tar="";
 if (this.op.newwindow)
     tar=' target="_blank"';
@@ -136,7 +138,7 @@ else if (ll=="it")
 else if (ll=="pl")
     t = 'Przeglądarka (%s), której używasz, jest przestarzała. Posiada ona udokumentowane <b>luki bezpieczeństwa, inne wady</b> oraz <b>ograniczoną funkcjonalność</b>. Tracisz możliwość skorzystania z pełni możliwości oferowanych przez niektóre strony internetowe. <a%s>Dowiedz się jak zaktualizować swoją przeglądarkę</a>.';
 else if (ll=="es")
-    t = 'Tu navegador (%s) <b>no está actualizado</b>. Tiene conocidas <b>fallos de seguridad</b> y podría <b>no mostrar todas las características</b> de este y otros sitios web. <a%s>Aprénde cómo puedes actualizar tu navegador</a>';
+    t = 'Su navegador (%s) <b>no está actualizado</b>. Tiene <b>fallos de seguridad</b> conocidos y podría <b>no mostrar todas las características</b> de este y otros sitios web. <a%s>Averigüe cómo actualizar su navegador.</a>';
 else if (ll=="nl")
     t = 'Uw browser (%s) is <b>oud</b>. Het heeft bekende <b>veiligheidsissues</b> en kan <b>niet alle mogelijkheden</b> weergeven van deze of andere websites. <a%s>Lees meer over hoe uw browser te upgraden</a>';
 else if (ll=="pt")
@@ -147,7 +149,7 @@ else if (ll=="sl")
 else if (ll=="ru")
     t = 'Ваш браузер (%s) <b>устарел</b>. Он имеет <b>уязвимости в безопасности</b> и может <b>не показывать все возможности</b> на этом и других сайтах. <a%s>Узнайте, как обновить Ваш браузер</a>';
 else if (ll=="id")
-    t = 'Browser Anda (% s) sudah <b>kedaluarsa</b>. Browser yang Anda pakai memiliki <b>kelemahan keamanan</b> dan mungkin <b>tidak dapat menampilkan semua fitur</b> dari situs Web ini dan lainnya. <a%s> Pelajari cara memperbarui browser Anda</a>';
+    t = 'Browser Anda (%s) sudah <b>kedaluarsa</b>. Browser yang Anda pakai memiliki <b>kelemahan keamanan</b> dan mungkin <b>tidak dapat menampilkan semua fitur</b> dari situs Web ini dan lainnya. <a%s> Pelajari cara memperbarui browser Anda</a>';
 else if (ll=="uk")
     t = 'Ваш браузер (%s) <b>застарів</b>. Він <b>уразливий</b> й може <b>не відображати всі можливості</b> на цьому й інших сайтах. <a%s>Дізнайтесь, як оновити Ваш браузер</a>';
 else if (ll=="ko")
@@ -174,7 +176,7 @@ else if (ll=="fa")
 else if (ll=="sv")
     t = 'Din webbläsare (%s) är <b>föråldrad</b>. Den har kända <b>säkerhetshål</b> och <b>kan inte visa alla funktioner korrekt</b> på denna och på andra webbsidor. <a%s>Uppdatera din webbläsare idag</a>';
 else if (ll=="hu")
-    t = 'Az Ön böngészője (%s) <b>elavult</b>. Ismert <b>biztonsági hiányosságai</b> vannakés esetlegesen <b>nem tud minden funkciót megjeleníteni</b> ezen vagy más weboldalakon. <a%s>Itt talál bővebb információt a böngészőjének frissítésével kapcsolatban</a>		 ';
+    t = 'Az Ön böngészője (%s) <b>elavult</b>. Ismert <b>biztonsági hiányosságai</b> vannak és esetlegesen <b>nem tud minden funkciót megjeleníteni</b> ezen vagy más weboldalakon. <a%s>Itt talál bővebb információt a böngészőjének frissítésével kapcsolatban</a>		 ';
 else if (ll=="gl")
     t = 'O seu navegador (%s) está <b>desactualizado</b>. Ten coñecidos <b>fallos de seguranza</b> e podería <b>non mostrar tódalas características</b> deste e outros sitios web. <a%s>Aprenda como pode actualizar o seu navegador</a>';
 else if (ll=="cs")
@@ -186,7 +188,18 @@ else if (ll=="nb")
 else if (ll=="zh")
     t='您的浏览器(%s) 需要更新。该浏览器有诸多安全漏洞，无法显示本网站的所有功能。 <a%s>了解如何更新浏览器</a>';
 else if (ll=="fi")
-    t='Selaimesi (%s) on <b>vanhentunu</b>. Siinä on tunnettuja <b>tietoturvaongelmia</b> eikä se välttämättä tue<b>kaikkia ominaisuuksia</b> tällä tai muilla sivustoilla. <a%s>Lue lisää siitä kuinka päivität selaimesi</a>';
+    t='Selaimesi (%s) on <b>vanhentunut</b>. Siinä on tunnettuja tietoturvaongelmia eikä se välttämättä tue kaikkia ominaisuuksia tällä tai muilla sivustoilla. <a%s>Lue lisää siitä kuinka päivität selaimesi</a>.';
+else if (ll=="tr")
+    t='Tarayıcınız (%s) <b>güncel değil</b>. Eski versiyon olduğu için <b>güvenlik açıkları</b> vardır ve görmek istediğiniz bu web sitesinin ve diğer web sitelerinin <b>tüm özelliklerini hatasız bir şekilde</b> gösteremeyecektir. <a%s>Tarayıcınızı nasıl güncelleyebileceğinizi öğrenin</a>';
+else if (ll=="ro")
+    t='Browser-ul (%s) tau este <b>invechit</b>. Detine <b>probleme de securitate</b> cunoscute si poate <b>sa nu afiseze corect</b> toate elementele acestui si altor site-uri. <a%s>Invata cum sa-ti actualizezi browserul.</a>';
+else if (ll=="bg")
+    t='Вашият браузър (%s) <b>не е актуален</b>. Известно е, че има <b>пропуски в сигурността</b> и може <b>да не покаже правилно</b> този или други сайтове. <a%s>Научете как да актуализирате браузъра си</a>.';
+else if (ll=="el")
+	t = 'Αυτός ο ιστότοπος σας υπενθυμίζει: Ο φυλλομετρητής σας (%s) είναι <b>παρωχημένος</b>.\
+	<a%s>Ενημερώστε το πρόγραμμα περιήγησής σας</a> για μεγαλύτερη ασφάλεια και άνεση σε αυτήν την ιστοσελίδα.';
+
+
 if (op.text)
     t = op.text;
 if (op["text_"+ll])
@@ -199,19 +212,18 @@ this.op.div = div;
 div.id="buorg";
 div.className="buorg";
 div.innerHTML= '<div>' + this.op.text + '<div id="buorgclose">&times;</div></div>';
-/* Generated using CSS Image Encoder 1.2.2 by WriteIt! Studios */
-/* http://www.writeitstudios.com */
+
 var sheet = document.createElement("style");
 //sheet.setAttribute("type", "text/css");
 var style = ".buorg {position:absolute;position:fixed;z-index:111111;\
 width:100%; top:0px; left:0px; \
 border-bottom:1px solid #A29330; \
-background:#FDF2AB no-repeat 10px center url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAd9JREFUOBGNk0FrE1EUhb83GUfbNAmFSBR1U0tLi1hCkRoJhSJiaxB3wUUhxYW7lm6Kv6Brg101oBDoQtKVYO1fEKQ/oCBdFARBoQsbkEod73mYYMJI++DOnHfuuefex7xx/GetwpUI3ih9As/q8DVJGiaR4i7C63F4KLxv2F4V4f4V9BPaW/diHh6UJiaCG/l8ICwuSZtoYN1fjkI4uL7OWKOBsLhzGVine5ctJufmXDgzg0JYnHJJJj3cC/j0Hn4fbm/HxWLRh7A45XrEtuk5gnW4X4DbY+Wyi8plcrmcD2Fxyknzr0mPgZ3z1SREgysruCAgk8n4EBannDSJBub8+CqM3iyViGZncc6RzWZ9CItTThppOyZ+AiOcXZr6rb/dgzD0Bt0JzECcppBGWtXIxD9s83QEmo+mp6Ph3V1IpYjjmHa77Rul02lvyOkpRwsLfNjbOzmAWh3eOitOXYOjO5AZ39riUqXii2VQrVa9QavV8gY6ys+dHfYXF/U5fnyB4cBGWBqwm3t9aoqB+fmuUOJCoeBDuBPSeK3VqNatwbcnkB/Z2GCoVut21wQKrU5x533cbHKwvMw7+O427YLcNc0FLz3/45dJP0IcfoZN+12fD/VdqrOsjq3xITT+AJfefQgtzf4fAAAAAElFTkSuQmCC);\
+background:#FDF2AB no-repeat 13px center url(//browser-update.org/img/small/"+this.op.browser.n+".gif);\
 text-align:left; cursor:pointer; \
 font-family: Arial,Helvetica,sans-serif; color:#000; font-size: 12px;}\
 .buorg div { padding:5px 36px 5px 40px; } \
 .buorg a,.buorg a:visited  {color:#E25600; text-decoration: underline;}\
-#buorgclose { position: absolute; right: 6px; top:2px; height: 20px; width: 12px; font-weight: bold;font-size:18px; padding:0; }";
+#buorgclose { position: absolute; right: 6px; top:-2px; height: 20px; width: 12px; font-weight: bold;font-size:18px; padding:0; }";
 document.body.insertBefore(div,document.body.firstChild);
 document.getElementsByTagName("head")[0].appendChild(sheet);
 try {
@@ -232,9 +244,11 @@ div.onclick=function(){
         window.open(me.op.url,"_blank");
     else
         window.location.href=me.op.url;
+    setCookie(me.op.reminderClosed);
     me.op.onclick(me.op);
     return false;
 };
+try {
 div.getElementsByTagName("a")[0].onclick = function(e) {
     var e = e || window.event;
     if (e.stopPropagation) e.stopPropagation();
@@ -242,18 +256,25 @@ div.getElementsByTagName("a")[0].onclick = function(e) {
     me.op.onclick(me.op);
     return true;
 };
+}
+catch(e) {}
 
 var hm=document.getElementsByTagName("html")[0]||document.body;
 this.op.bodymt = hm.style.marginTop;
 hm.style.marginTop = (div.clientHeight)+"px";
-document.getElementById("buorgclose").onclick = function(e) {
-    var e = e || window.event;
-    if (e.stopPropagation) e.stopPropagation();
-    else e.cancelBubble = true;
-    me.op.div.style.display="none";
-    hm.style.marginTop = me.op.bodymt;
-    return true;
-};
+(function(me) {
+            document.getElementById("buorgclose").onclick = function(e) {
+                var e = e || window.event;
+                if (e.stopPropagation) e.stopPropagation();
+                else e.cancelBubble = true;
+                me.op.div.style.display = "none";
+                hm.style.marginTop = me.op.bodymt;
+                me.op.onclose(me.op);
+                setCookie(me.op.reminderClosed);
+                return true;
+            };
+})(me);
+
 op.onshow(this.op);
 
 };

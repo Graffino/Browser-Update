@@ -11,18 +11,18 @@ You can install it via Bower with: `bower install browser-update`
 
 ### The following browsers will be notified by default:
 1. IE <= 9
-2. Firefox <= 23
+2. Firefox <= 34
 3. Opera <= 12
 4. Safari <= 6.2
 5. Netscape Navigator <= 12
-6. Chrome <= 28
+6. Chrome <= 39
 
 
 ### The following options can be passed to the script:
 ``` javascript
 var $buoop = {
     vs: {i:6,f:2,o:9.63,s:2,c:10},  // browser versions to notify
-    reminder: 24,                   // atfer how many hours should the message reappear
+    reminder: 24,                   // after how many hours should the message reappear
                                     // 0 = show all the time
     onshow: function(infos){},      // callback function after the bar has appeared
     onclick: function(infos){},      // callback function if bar was clicked
