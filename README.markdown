@@ -17,7 +17,7 @@ You can install it via Bower with: `bower install browser-update`
 5. Netscape Navigator <= 12
 6. Chrome - Automatic
 
-### The following OSes & Browsers will not be notified since there is no up to date version of browser
+### The following OSes and browsers will not be notified since there is no up to date version of browser
 1. Windows NT 4.0, 5.0
 3. Windows 98
 4. OSX 10.2, 10.3, 10.4, 10.5
