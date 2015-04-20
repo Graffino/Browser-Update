@@ -19,6 +19,9 @@
       "url": "https://github.com/zenopopovici/browser-update/blob/master/LICENSE"
     }
   ],
+  "scripts": {
+  	"test": "grunt test"
+  },
   "keywords": ["browser update", "notification", "javascript", "oldie"],
 
   "private": false,
