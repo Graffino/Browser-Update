@@ -1,3 +1,5 @@
+<a href="https://travis-ci.org/zenopopovici/Browser-Update"><img src="https://travis-ci.org/zenopopovici/Browser-Update.svg" alt="Build Status" /></a>
+
 # Browser Update
 
 This is a little javascript that detects the user's browser and shows a warning message if the browser is too old.
