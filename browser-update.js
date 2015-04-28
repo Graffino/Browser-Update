@@ -15,7 +15,7 @@ var ll=this.op.l.substr(0,2);
 
 //Default Options
 this.op.vsakt = {i:11,f:36,o:28,s:8,n:20,c:41};
-this.op.vsdefault = {i:9,f:34,o:12.1,s:6.2,n:12,c:39};
+this.op.vsdefault = {i:9,f:34,o:12.1,s:6.2,n:12,c:29};
 this.op.vsmin={i:8,f:5,o:12,s:5.1,n:12};
 
 var myvs=op.vs||{};
