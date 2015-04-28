@@ -25,12 +25,14 @@ You can install it via Bower with: `bower install browser-update`
 4. OSX 10.2, 10.3, 10.4, 10.5
 5. Firefox ESR
 6. Opera 12 on Linux
+7. Browsers versions bellow vsmin
 
+### The following OSes and browsers will not be notified
+1. IE => 11 - See issue <a href="https://github.com/zenopopovici/Browser-Update/issues/1">#1</a>
 
 ### The following options can be passed to the script:
 ``` javascript
 var $buoop = {
-var $buoop = {}; 
 
     vs: {i:6,f:2,o:9.63,s:2,c:10}, 	// browser versions to notify
     reminder: 24,                   // after how many hours should the message reappear
