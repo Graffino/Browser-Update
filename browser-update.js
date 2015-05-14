@@ -1,7 +1,7 @@
 /* 
 Browser Update
 Author: Graffino (http://www.graffino.com)
-Version: 1.0.6
+Version: 1.3.0
 This is a modified version of the browser-update.org script
 Copyright (c) 2007-2015, MIT Style License <browser-update.org/LICENSE.txt>
 */

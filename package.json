@@ -2,7 +2,7 @@
   "name": "browser-update",
   "title": "Browser Update",
   "description": "Old browser notification script.",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "homepage": "http://github.com/zenopopovici/browser-update",
   "author": {
     "name": "Graffino",
