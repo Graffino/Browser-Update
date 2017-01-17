@@ -1,7 +1,7 @@
 {
     "name": "browser-update",
-    "version": "1.3.0",
-    "main": "browser-update.min.js",
+    "version": "2.0.0",
+    "main": "browser-update.js",
     "author": [ "Zeno Popovici" ],
     "ignore": []
 }
