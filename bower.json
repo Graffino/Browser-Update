@@ -1,7 +1,8 @@
 {
     "name": "browser-update",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "main": "browser-update.js",
-    "author": [ "Zeno Popovici" ],
-    "ignore": []
+    "author": [ "Zeno Popovici", "Graffino" ],
+    "ignore": [],
+    "homepage": "https://github.com/Graffino/browser-update"
 }
