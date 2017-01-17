@@ -2,21 +2,21 @@
   "name": "browser-update",
   "title": "Browser Update",
   "description": "Old browser notification script.",
-  "version": "1.3.0",
-  "homepage": "http://github.com/zenopopovici/browser-update",
+  "version": "2.0.0",
+  "homepage": "http://github.com/graffino/browser-update",
   "author": {
     "name": "Graffino",
     "url": "http://graffino.com/"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/zenopopovici/browser-update.git"
+    "url": "git://github.com/graffino/browser-update.git"
   },
-  "bugs": "https://github.com/zenopopovici/browser-update/issues",
+  "bugs": "https://github.com/graffino/browser-update/issues",
   "licenses": [
     {
       "type": "Some Rights Reserved",
-      "url": "https://github.com/zenopopovici/browser-update/blob/master/LICENSE"
+      "url": "https://github.com/graffino/browser-update/blob/master/LICENSE"
     }
   ],
   "scripts": {
@@ -29,7 +29,6 @@
   "devDependencies": {
     "grunt": "*",
     "grunt-contrib-watch": "*",
-    "grunt-contrib-uglify": "*",
-    "grunt-contrib-jshint": "*"
+    "grunt-contrib-uglify": "*"
   }
 }
