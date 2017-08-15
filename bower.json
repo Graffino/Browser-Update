@@ -1,6 +1,6 @@
 {
     "name": "browser-update",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "main": "browser-update.js",
     "author": [ "Zeno Popovici", "Graffino" ],
     "ignore": [],
