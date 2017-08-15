@@ -15,8 +15,6 @@ var $buo_show = function() {
     var ll = op.ll;
     var pageurl = op.pageurl || location.hostname || "x";
     var bb = $bu_getBrowser();
-    var burl = "//whatbrowser.org";
-    op.url = burl;
 
     function busprintf() {
         var args = arguments;
